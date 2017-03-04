@@ -1,0 +1,28 @@
+Project Deliverable 3: Analysis and Architecture 
+Group 9: Kevin Annis, Samit (Jade) Dhangwattanotai, Alex Vahid, Shikha Taori
+
+3. Happy Path
+
+User supplies user’s authentication information
+User is prompt with facebook’s permission request
+User grant permission
+User is acknowledge as current after approval
+User is directed to the home page
+User’s friend’s posts are displayed in the map page
+User clicks on a post 
+User likes or adds comments to the post
+User deselect the post and view other posts
+User click on navigation page and changes the display default of the home page.
+User return to the home page and view the changes to the display
+User logout of the account
+Unhappy path
+The user fails to enter the correct authentication information
+User did not grant our website permission to use their Facebook account information
+
+
+4) Architecture and framework:
+Primary:
+Based on our analysis, we are going to use a 2 tier architecture running a LAMP stack (Linux, Apache/Nginx, MySQL, Python). We chose this setup because our app is not going to require a lot of processing power on the back end since we are mostly gluing together APIs. We will use Django as a web framework for its out of the box feature set and plugin support. The database will run on the web server because we will be storing minimal information there with infrequent calls (user settings, preferences, registered users). Our group members also have experience with SQL and Python.
+
+Alternative:
+Node.js would be our second choice for the framework, but because our website do not require very complex algorithm on the back end it is not necessary for us to use Node as our platform. Also, we do not have members who is proficient with the framework so we would need to plan head to have time to learn the technology.
