@@ -14,6 +14,13 @@
     <input type="button" value="Go to Great Britain!" onclick="marker({ lat: 55.378, lng: 3.436 }, 5);"/>
     <br />
     <br />
+    <label for="">Latitude</label>
+    <input type="text" id = "lat" />&nbsp;&nbsp;&nbsp;
+    <label for="">Longitude</label>
+    <input type="text" id= "long" />&nbsp;&nbsp;&nbsp;
+    <input type="button" value="Go!" onclick="marker({ lat: Number(document.getElementById('lat').value), lng: Number(document.getElementById('long').value) }, 5);"/>
+    <br />
+    <br />
     <div id="map" style="height:100%;"></div>
     <script>
         var map;
