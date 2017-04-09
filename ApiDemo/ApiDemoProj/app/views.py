@@ -61,3 +61,19 @@ def api(request):
             'test':test,
         }
     )
+
+def fblogin(request):
+    test = ''
+    if request.method == 'POST':
+        test = request.POST.get('test')
+
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/fblogin.html',
+        {
+            'title':'Home Page',
+            'year':datetime.now().year,
+            'test':test,
+        }
+    )
