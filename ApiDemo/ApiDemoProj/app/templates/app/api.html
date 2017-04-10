@@ -1,7 +1,7 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
-
+{% csrf_token %}
 <div>
     <!--<form action="/api/" method="post">
         {% csrf_token %}
@@ -18,24 +18,95 @@
     <input type="text" id = "lat" />&nbsp;&nbsp;&nbsp;
     <label for="">Longitude</label>
     <input type="text" id= "long" />&nbsp;&nbsp;&nbsp;
-    <input type="button" value="Go!" onclick="marker({ lat: Number(document.getElementById('lat').value), lng: Number(document.getElementById('long').value) }, 5);"/>
+    <input type="button" value="Go!" onclick="marker(document.getElementById('lat').value);"/>
     <br />
     <br />
     <div id="map" style="height:100%;"></div>
     <script>
         var map;
+        var query;
         function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 42.360, lng: -71.0589 },
-            zoom: 6
-        });
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -33.8665433, lng: 151.1956316 },
+                zoom: 15
+            });
+            var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            });
         }
-        function marker(LatLng,zoom) {
-            map.setCenter(LatLng)
-            map.setZoom(zoom);
+
+        function marker(text) {
+            var pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
+            query = text;
+            var request = {
+                location: pyrmont,
+                radius: '500',
+                query: text
+            };
+            
+            $.ajax({
+                type: "POST",
+                url: "/api/",
+                data: {
+                    'method':'check',
+                    'query': text
+                },
+                success: function (res) {
+                    var results = res.results;
+                    if (results != null && results.length > 0) {
+                        for (var i = 0; i < results.length; i++) {
+                            var place = results[i];
+
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                position: { lat: place.lat, lng: place.long }
+                            });
+                        }
+                    }
+                    else {
+                        var service;
+                        service = new google.maps.places.PlacesService(map);
+                        service.textSearch(request, callback);
+                    }
+                }
+            });
+            return false;
+        }
+
+        function callback(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                var res = [];
+                for (index = 0; index < results.length; ++index) {
+                    res.push({ 'lat': results[index].geometry.location.lat(), 'long': results[index].geometry.location.lng() })
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/api/",
+                    data: {
+                        method: 'save',
+                        results: JSON.stringify(res),
+                        query: query,
+                    },
+                    success: function () {
+                        for (var i = 0; i < results.length; i++) {
+                            var place = results[i];
+
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                position: place.geometry.location
+                            });
+                        }
+                    }
+
+                });
+                
+            }
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap&libraries=places"
     async defer></script>
 </div>
 

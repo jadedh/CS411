@@ -7,6 +7,7 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 from app.forms import ApiForm
+from app.models import TestData
 
 def home(request):
     """Renders the home page."""
@@ -46,10 +47,29 @@ def about(request):
         }
     )
 
+import json
+from django.http import JsonResponse
+from django.core import serializers
 def api(request):
     test = ''
+
     if request.method == 'POST':
-        test = request.POST.get('test')
+        method = request.POST.get('method')
+        if (method == 'check'):
+            items = TestData.objects.filter(query = request.POST.get('query')).values()
+            if (items.count() > 0):
+                return JsonResponse({'results': list(items)})
+            return JsonResponse({'results': None})
+        else:
+            query = request.POST['query']
+            data = json.loads(request.POST['results'])
+            for item in data:
+                obj = TestData(
+                    query=query,
+                    lat=item['lat'],
+                    long=item['long']
+                )
+                obj.save()
         
     assert isinstance(request, HttpRequest)
     return render(
