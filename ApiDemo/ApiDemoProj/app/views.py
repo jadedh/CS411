@@ -7,7 +7,10 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 from app.forms import ApiForm
-from app.models import TestData
+from app.models import QueryData, QueryText
+from googleplaces import GooglePlaces, types, lang
+
+
 
 def home(request):
     """Renders the home page."""
@@ -50,26 +53,40 @@ def about(request):
 import json
 from django.http import JsonResponse
 from django.core import serializers
-def api(request):
-    test = ''
+    
 
-    if request.method == 'POST':
-        method = request.POST.get('method')
-        if (method == 'check'):
-            items = TestData.objects.filter(query = request.POST.get('query')).values()
-            if (items.count() > 0):
-                return JsonResponse({'results': list(items)})
-            return JsonResponse({'results': None})
-        else:
-            query = request.POST['query']
-            data = json.loads(request.POST['results'])
-            for item in data:
-                obj = TestData(
-                    query=query,
-                    lat=item['lat'],
-                    long=item['long']
+def api(request):
+    if request.method == 'POST':   
+        try:
+            q = request.POST['query']
+            query_text = QueryText.objects.get(query = q)
+            return JsonResponse({'results': list(query_text.querydata_set.all().values())})
+        except QueryText.DoesNotExist:
+            google_places = GooglePlaces('AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM')
+            query_result = google_places.text_search(
+                query=q,
+                radius=500, 
+                lat_lng={'lat': -33.8665433, 'lng': 151.1956316}
+            )
+            qt = QueryText(
+                query = q
+            )
+            qt.save()
+            qt_loaded = QueryText.objects.get(query = q)
+            arr = []
+            for item in query_result.places:
+                lat=item.geo_location['lat']
+                long=item.geo_location['lng']
+                obj = QueryData(
+                    query_id = qt_loaded.id,
+                    lat = lat,
+                    long = long
                 )
+                arr.append({'lat' : float(lat), 'long' : float(long)})
                 obj.save()
+                
+            return JsonResponse({'results': arr})
+            
         
     assert isinstance(request, HttpRequest)
     return render(
@@ -78,6 +95,6 @@ def api(request):
         {
             'title':'Home Page',
             'year':datetime.now().year,
-            'test':test,
         }
     )
+

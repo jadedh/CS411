@@ -66,47 +66,13 @@
                             });
                         }
                     }
-                    else {
-                        var service;
-                        service = new google.maps.places.PlacesService(map);
-                        service.textSearch(request, callback);
-                    }
                 }
             });
             return false;
         }
 
-        function callback(results, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-                var res = [];
-                for (index = 0; index < results.length; ++index) {
-                    res.push({ 'lat': results[index].geometry.location.lat(), 'long': results[index].geometry.location.lng() })
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "/api/",
-                    data: {
-                        method: 'save',
-                        results: JSON.stringify(res),
-                        query: query,
-                    },
-                    success: function () {
-                        for (var i = 0; i < results.length; i++) {
-                            var place = results[i];
-
-                            var marker = new google.maps.Marker({
-                                map: map,
-                                position: place.geometry.location
-                            });
-                        }
-                    }
-
-                });
-                
-            }
-        }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap&libraries=places"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap"
     async defer></script>
 </div>
 

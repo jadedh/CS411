@@ -1,0 +1,23 @@
+Code to create the UML Sequential diagram
+
+title Database Cache
+
+User->html page: User enters search term
+html page->server side: AJAX POST request to /api/ with search in body
+server side->sqlite (query_text): check if search exists
+sqlite (query_text)->server side: return search result (locations)
+
+
+
+alt result exists
+    server side->sqlite (query_data): evaluate FK related data set to get locations
+    sqlite (query_data)->server side: return locations
+else result does not exist
+    server side->google places: get locations from google places by search term
+    google places->server side: return any locations found
+    server side->sqlite (query_text): add search term to cache
+    sqlite (query_text) ->server side: return id for FK
+    server side-> sqlite (query_data): add locations and attach to query_text with id
+end
+
+server side->html page: return location results and display on map
