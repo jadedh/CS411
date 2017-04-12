@@ -25,6 +25,7 @@
     <script>
         var map;
         var query;
+        var markersArray = [];
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: -33.8665433, lng: 151.1956316 },
@@ -38,23 +39,18 @@
             });
         }
 
-        function marker(text) {
-            var pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
-            query = text;
-            var request = {
-                location: pyrmont,
-                radius: '500',
-                query: text
-            };
-            
+        function marker(text) {           
             $.ajax({
                 type: "POST",
                 url: "/api/",
                 data: {
-                    'method':'check',
                     'query': text
                 },
                 success: function (res) {
+                    for (var i = 0; i < markersArray.length; i++) {
+                        markersArray[i].setMap(null);
+                    }
+                    markersArray.length = 0;
                     var results = res.results;
                     if (results != null && results.length > 0) {
                         for (var i = 0; i < results.length; i++) {
@@ -64,6 +60,7 @@
                                 map: map,
                                 position: { lat: place.lat, lng: place.long }
                             });
+                            markersArray.push(marker);
                         }
                     }
                 }
