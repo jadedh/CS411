@@ -1,0 +1,16 @@
+models
+__version__
+views
+strategy
+BaseAuth
+middleware
+config
+storage
+utils
+urls
+context_processors
+baseauth_init_workaround
+managers
+admin
+fields
+migrations

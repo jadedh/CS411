@@ -5,6 +5,7 @@ Definition of urls for ApiDemoProj.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
+from django.conf.urls import include
 
 import app.forms
 import app.views
@@ -38,6 +39,7 @@ urlpatterns = [
         },
         name='logout'),
     url(r'^api', app.views.api, name='api'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -1,0 +1,5 @@
+BaseOAuth2
+AuthFailed
+urljoin
+HTTPError
+GitLabOAuth2

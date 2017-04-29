@@ -1,11 +1,11 @@
-servers
+mail
 checks
 signals
 signing
 validators
 handlers
 urlresolvers
-mail
+servers
 wsgi
 exceptions
 serializers

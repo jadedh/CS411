@@ -6,6 +6,7 @@
     <RootNamespace>ApiDemoProj</RootNamespace>
     <InterpreterId>{beac08c9-24f1-42bf-ae20-4fff7fa0b11b}</InterpreterId>
     <InterpreterVersion>2.7</InterpreterVersion>
+    <WebBrowserPort>8000</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
