@@ -16,11 +16,11 @@ import json
 @login_required
 def home(request):
     """Renders the home page."""
-    social = request.user.social_auth.get(provider='instagram')
-    token = social.extra_data['access_token']
-    r = requests.get('https://api.instagram.com/v1/tags/boston/media/recent?access_token='+token)
-    jsonObj = json.loads(r.text)
-    loc = jsonObj['data'][0]['location']
+    #social = request.user.social_auth.get(provider='instagram')
+    #token = social.extra_data['access_token']
+    #r = requests.get('https://api.instagram.com/v1/tags/boston/media/recent?access_token='+token)
+    #jsonObj = json.loads(r.text)
+    #loc = jsonObj['data'][0]['location']
     assert isinstance(request, HttpRequest)
     return render(
         request,
