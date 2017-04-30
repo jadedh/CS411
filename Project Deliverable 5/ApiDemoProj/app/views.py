@@ -6,21 +6,106 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
+from datetime import timedelta
 from app.forms import ApiForm
-from app.models import QueryData, QueryText
+from app.models import QueryData, QueryText, JsonCache, UserData
 from googleplaces import GooglePlaces, types, lang
 from django.contrib.auth.decorators import login_required
 import requests
 import json
+from django.utils.safestring import mark_safe
+
+def refresh_cache(userid, token):
+    r = requests.get('https://api.instagram.com/v1/users/' + userid + '/media/recent/?access_token='+token)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+    
+    cache = JsonCache.objects.filter(userid = userid)    
+    if cache:
+        cache.update(json = r.text, timestamp = now)
+
+    else:
+        cache = JsonCache(
+            userid = userid,
+            json = r.text,
+            timestamp = now
+        )
+        cache.save()
+
+    return r.text
+
 
 @login_required
 def home(request):
     """Renders the home page."""
+
+    social = request.user.social_auth.get(provider='instagram')
+    token = social.extra_data['access_token']
+
+    user_data = UserData.objects.filter(userid = social.uid)
+
+    if request.method == 'POST':   
+        tag = request.POST['tag']
+        dist = request.POST['dist']
+        loc = request.POST['loc']
+ 
+        if user_data:
+            user_data.update(dist = dist, tag = tag, loc = loc)
+        else:
+            user_data = UserData(
+                userid = social.uid,
+                dist = dist,
+                tag = tag,
+                loc = loc
+            )
+            user_data.save()
+
+    if not user_data:
+        user_data = UserData(
+            userid = social.uid,
+            dist = '',
+            tag = '',
+            loc = ''
+        )
+        user_data.save()
+
+    userids = []
+    userids.append('5385953857') #jadedh
+    userids.append('17025099') #alex_vahid
+    userids.append('314279076') #shikhataori 
+    userids.append('38461369') #k.annis 
+    userids.append('29023929') #saribe0                       
+
+    caches = JsonCache.objects.all()
+
+    if not caches:
+        for userid in userids:
+            refresh_cache(userid, token)
+        caches = JsonCache.objects.all()
+                    
+            
+    return_pics = []
+    for cache in caches:
+        timestamp = datetime.strptime(cache.timestamp, "%Y-%m-%d %H:%M:%S.%f")
+        elapsed = datetime.now() - timestamp
+        if elapsed > timedelta(minutes=30):
+            cache.json = refresh_cache(str(cache.userid), token)
+                    
+        jsonObj = json.loads(cache.json)
+        if 'data' in jsonObj:
+            for pic in jsonObj['data']:
+                loc = pic['location']
+                if loc and 'latitude' in loc:
+                    return_pics.append({'lat' : float(loc['latitude']), 'long' : float(loc['longitude']), 'pic': pic['images']['standard_resolution']['url']})
+    
+    if request.method == 'POST':           
+        return JsonResponse({'results': return_pics})            
+                      
     #social = request.user.social_auth.get(provider='instagram')
     #token = social.extra_data['access_token']
     #r = requests.get('https://api.instagram.com/v1/tags/boston/media/recent?access_token='+token)
     #jsonObj = json.loads(r.text)
     #loc = jsonObj['data'][0]['location']
+    
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -28,6 +113,7 @@ def home(request):
         {
             'title':'Home Page',
             'year':datetime.now().year,
+            'return_pics': mark_safe(json.dumps(return_pics))
         }
     )
 

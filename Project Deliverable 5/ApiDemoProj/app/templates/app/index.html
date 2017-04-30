@@ -2,7 +2,8 @@
 
 {% block content %}
 {% csrf_token %}
-<style>
+<style type="text/css">
+
     body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
         margin-right:0px;
     }
@@ -13,7 +14,7 @@
 	.modal.right .modal-dialog {
 		position: fixed;
 		margin: auto;
-		width: 320px;
+		width: 550px;
 		height: 100%;
 		-webkit-transform: translate3d(0%, 0, 0);
 		    -ms-transform: translate3d(0%, 0, 0);
@@ -34,7 +35,7 @@
 
 /*Left*/
 	.modal.left.fade .modal-dialog{
-		left: -320px;
+		left: -550px;
 		-webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
 		   -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
 		     -o-transition: opacity 0.3s linear, left 0.3s ease-out;
@@ -45,18 +46,6 @@
 		left: 0;
 	}
         
-/*Right*/
-	.modal.right.fade .modal-dialog {
-		right: -320px;
-		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-		   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-		     -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-		        transition: opacity 0.3s linear, right 0.3s ease-out;
-	}
-	
-	.modal.right.fade.in .modal-dialog {
-		right: 0;
-	}
 
 /* ----- MODAL STYLE ----- */
 	.modal-content {
@@ -69,15 +58,33 @@
 		background-color: #FAFAFA;
 	}
 
+    #filterMore {
+        text-align: center;
+        width: 70px;
+        height: 70px;
+        border: solid 1px #5d5c5c;
+        background-color: #eee;
+        border-radius: 100px;
+    }
+    #filterMore:hover {
+        background-color: #ddd;
+        cursor:pointer;
+    }
+    .gm-style-iw div {
+        overflow:hidden !important;
+    }
+
+
 </style>
+
+<a style="position:absolute; top: 60px; left: 20px; z-index:99" data-toggle="modal" data-target="#myModal">
+    <div id="filterMore">
+        <i style="top: calc(50% - 15px); position: relative; font-size: 30px; color: #5a5757;"class="fa fa-navicon"></i>
+    </div>
+</a>
 
 
 <div class="container demo">
-    <a style="position:absolute; top: 50px; left: 50px;">
-        <div>
-            <i class="fa fa-navicon"></i>
-        </div>
-    </a>
 
     <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -85,26 +92,57 @@
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Left Sidebar</h4>
+					<h4 class="modal-title" id="myModalLabel">Filter</h4>
 				</div>
 
 				<div class="modal-body">
-					<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					</p>
+
+                    <br />
+                    <div class="form-group" style="display:table; width:100%;">
+                        <label style="width:30%" class="col-md-2 control-label">Distance</label>
+                        <div style="width:69.999%" class="col-md-10">
+                            <input id="dist" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:table; width:100%;">
+                        <label style="width:30%" class="col-md-2 control-label">Hashtag</label>
+                        <div style="width:69.999%" class="col-md-10">
+                            <input id="tag" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:table; width:100%;">
+                        <label style="width:30%" class="col-md-2 control-label">Search Location</label>
+                        <div style="width:69.999%" class="col-md-10">
+                            <input id="loc" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <br />
+                    <button type="button" style="margin-left:10px;" onclick="load_data();" class="btn btn-primary">Filter</button>
+                
+                
 				</div>
 
 			</div><!-- modal-content -->
 		</div><!-- modal-dialog -->
 	</div><!-- modal -->	
-    <div id="map" style="height: 550px; margin-top: 10px;"></div>
+    <div id="map" style="height: 550px; margin-top: 10px; margin-left:40px;margin-right:40px;"></div>
+
+    <script>
+        //this is in a separate script tag because the django template variable was screwing up the IDE's colorizing of text. Somehow this fixed it.
+        function marker_outside() {
+            var return_pics = JSON.parse('{"results":{{ return_pics }} }');
+            add_markers(return_pics);
+        }
+    </script>
+
     <script>
         var map;
         var query;
         var markersArray = [];
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: -33.8665433, lng: 151.1956316 },
-                zoom: 15
+                center: { lat: 42.3601, lng: -71.057 },
+                zoom: 13
             });
             var csrftoken = $("[name=csrfmiddlewaretoken]").val();
             $.ajaxSetup({
@@ -112,32 +150,51 @@
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             });
+            marker_outside();
         }
 
-        function marker(text) {           
+        function add_markers(res) {
+            for (var i = 0; i < markersArray.length; i++) {
+                markersArray[i].setMap(null);
+            }
+            markersArray.length = 0;
+            var results = res.results;
+            if (results != null && results.length > 0) {
+                for (var i = 0; i < results.length; i++) {
+                    var place = results[i];
+
+                    var content = '<img id="pic" src=' + place.pic + ' style="max-height:350px;">';
+
+                    var infowindow = new google.maps.InfoWindow();
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: { lat: place.lat, lng: place.long }
+                    });
+                    google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+                        return function () {
+                            infowindow.setContent(content);
+                            infowindow.open(map, marker);
+                        };
+                    })(marker, content, infowindow));
+                    markersArray.push(marker);
+                }
+            }
+        }
+
+        function load_data() {
+            tag = document.getElementById('tag').value;
+            dist = document.getElementById('dist').value;
+            loc = document.getElementById('loc').value;
             $.ajax({
                 type: "POST",
-                url: "/api/",
+                url: "/",
                 data: {
-                    'query': text
+                    'tag': tag,
+                    'dist': dist,
+                    'loc': loc,
                 },
-                success: function (res) {
-                    for (var i = 0; i < markersArray.length; i++) {
-                        markersArray[i].setMap(null);
-                    }
-                    markersArray.length = 0;
-                    var results = res.results;
-                    if (results != null && results.length > 0) {
-                        for (var i = 0; i < results.length; i++) {
-                            var place = results[i];
-
-                            var marker = new google.maps.Marker({
-                                map: map,
-                                position: { lat: place.lat, lng: place.long }
-                            });
-                            markersArray.push(marker);
-                        }
-                    }
+                success: function (return_pics) {
+                    add_markers(return_pics);
                 }
             });
             return false;
@@ -148,16 +205,5 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap"
     async defer></script>
 </div>
-
-<br />
-<br />
-<label for="">Search:</label>
-<input type="text" id = "lat" />&nbsp;&nbsp;&nbsp;
-<input type="button" value="Go!" onclick="marker(document.getElementById('lat').value);"/>
-<br />
-    <br />
-<button type="button" class="btn btn-demo" data-toggle="modal" data-target="#myModal">
-			Left Sidebar Modal
-		</button>
 
 {% endblock %}

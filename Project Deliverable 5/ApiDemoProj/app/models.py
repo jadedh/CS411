@@ -27,7 +27,26 @@ class QueryData(models.Model):
         managed = False
         db_table = 'query_data'
 
+class JsonCache(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    userid = models.IntegerField(unique=True)
+    json = models.TextField()
+    timestamp = models.TextField()
 
+    class Meta:
+        managed = False
+        db_table = 'json_cache'
+
+class UserData(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    userid = models.IntegerField(unique=True)
+    loc = models.TextField()
+    dist = models.TextField()
+    tag = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'user_data'
 
 
 
