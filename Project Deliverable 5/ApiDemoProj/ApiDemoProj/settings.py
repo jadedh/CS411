@@ -12,16 +12,20 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import posixpath
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+with open(BASE_DIR + '/ApiDemoProj/config.json') as f:
+    config = json.load(f)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0dc78d03-b96a-4b4b-b72f-ba1d37ebbf3e'
+SECRET_KEY = config['Config_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,8 +89,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_INSTAGRAM_KEY = '41f4aa3c78bb49ca951ef9d64d3455a4'  # App ID
-SOCIAL_AUTH_INSTAGRAM_SECRET = '29192b77df104f209c0492620a0a76df'  # App Secret
+SOCIAL_AUTH_INSTAGRAM_KEY = config['Config_auth_instagram_key']  # App ID
+SOCIAL_AUTH_INSTAGRAM_SECRET = config['Config_auth_instagram_secret']  # App Secret
 INSTAGRAM_AUTH_EXTRA_ARGUMENTS = {'scope': 'public_content'}
 
 WSGI_APPLICATION = 'ApiDemoProj.wsgi.application'

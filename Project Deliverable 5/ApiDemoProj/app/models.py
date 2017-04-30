@@ -43,6 +43,7 @@ class UserData(models.Model):
     loc = models.TextField()
     dist = models.TextField()
     tag = models.TextField()
+    lim = models.TextField()
 
     class Meta:
         managed = False

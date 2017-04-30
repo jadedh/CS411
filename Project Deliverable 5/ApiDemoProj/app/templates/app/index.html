@@ -14,7 +14,7 @@
 	.modal.right .modal-dialog {
 		position: fixed;
 		margin: auto;
-		width: 550px;
+		width: 575px;
 		height: 100%;
 		-webkit-transform: translate3d(0%, 0, 0);
 		    -ms-transform: translate3d(0%, 0, 0);
@@ -35,7 +35,7 @@
 
 /*Left*/
 	.modal.left.fade .modal-dialog{
-		left: -550px;
+		left: -575px;
 		-webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
 		   -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
 		     -o-transition: opacity 0.3s linear, left 0.3s ease-out;
@@ -99,25 +99,31 @@
 
                     <br />
                     <div class="form-group" style="display:table; width:100%;">
-                        <label style="width:30%" class="col-md-2 control-label">Distance</label>
-                        <div style="width:69.999%" class="col-md-10">
-                            <input id="dist" class="form-control" type="text">
+                        <label style="width:35%" class="col-md-2 control-label">Distance (km)</label>
+                        <div style="width:64.999%" class="col-md-10">
+                            <input id="dist" class="form-control" type="number" onkeypress="return event.charCode >= 48"  value="{{dist}}">
                         </div>
                     </div>
                     <div class="form-group" style="display:table; width:100%;">
-                        <label style="width:30%" class="col-md-2 control-label">Hashtag</label>
-                        <div style="width:69.999%" class="col-md-10">
-                            <input id="tag" class="form-control" type="text">
+                        <label style="width:35%" class="col-md-2 control-label">Hashtag</label>
+                        <div style="width:64.999%" class="col-md-10">
+                            <input id="tag" class="form-control" type="text"  value="{{tag}}">
                         </div>
                     </div>
                     <div class="form-group" style="display:table; width:100%;">
-                        <label style="width:30%" class="col-md-2 control-label">Search Location</label>
-                        <div style="width:69.999%" class="col-md-10">
-                            <input id="loc" class="form-control" type="text">
+                        <label style="width:35%" class="col-md-2 control-label">Search Location</label>
+                        <div style="width:64.999%" class="col-md-10">
+                            <input id="loc" class="form-control" type="text" value="{{loc}}">
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:table; width:100%;">
+                        <label style="width:35%" class="col-md-2 control-label">Limit</label>
+                        <div style="width:64.999%" class="col-md-10">
+                            <input id="lim" class="form-control" type="number" onkeypress="return event.charCode >= 48" value="{{lim}}">
                         </div>
                     </div>
                     <br />
-                    <button type="button" style="margin-left:10px;" onclick="load_data();" class="btn btn-primary">Filter</button>
+                    <button type="button" style="margin-left:10px;" data-dismiss="modal" onclick="load_data();" class="btn btn-primary">Filter</button>
                 
                 
 				</div>
@@ -129,8 +135,13 @@
 
     <script>
         //this is in a separate script tag because the django template variable was screwing up the IDE's colorizing of text. Somehow this fixed it.
+        var return_pics = null;
         function marker_outside() {
-            var return_pics = JSON.parse('{"results":{{ return_pics }} }');
+            try{
+                return_pics = JSON.parse('{{ return_pics }}');                
+            } catch(e) {
+                return_pics = {{ return_pics }};
+            }
             add_markers(return_pics);
         }
     </script>
@@ -164,6 +175,7 @@
                     var place = results[i];
 
                     var content = '<img id="pic" src=' + place.pic + ' style="max-height:350px;">';
+                    if (place.caption != "") content += '<p style="margin-top: 13px;">' + place.caption + '</p>';
 
                     var infowindow = new google.maps.InfoWindow();
                     var marker = new google.maps.Marker({
@@ -179,12 +191,21 @@
                     markersArray.push(marker);
                 }
             }
+            map.setCenter({ lat: res.lat, lng: res.long });
         }
 
         function load_data() {
-            tag = document.getElementById('tag').value;
-            dist = document.getElementById('dist').value;
-            loc = document.getElementById('loc').value;
+            var tag = document.getElementById('tag').value;
+            var dist = document.getElementById('dist').value;
+            var loc = document.getElementById('loc').value;
+            var lim = document.getElementById('lim').value;
+            var center = map.getCenter();
+            var lat = center.lat;
+            if (lat > 90) lat = 90;
+            if (lat < -90) lat = -90;
+            var long = center.lng;
+            if (long > 180) long = 180;
+            if (long < -180) long = -180;
             $.ajax({
                 type: "POST",
                 url: "/",
@@ -192,6 +213,9 @@
                     'tag': tag,
                     'dist': dist,
                     'loc': loc,
+                    'lim': lim,
+                    'lat': lat,
+                    'long': long
                 },
                 success: function (return_pics) {
                     add_markers(return_pics);
@@ -201,6 +225,30 @@
         }
 
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap"
     async defer></script>

@@ -55,6 +55,7 @@
     <Folder Include="ApiDemoProj\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApiDemoProj\config.json" />
     <Content Include="app\templates\app\api.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
