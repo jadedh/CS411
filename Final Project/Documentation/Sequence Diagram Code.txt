@@ -1,0 +1,52 @@
+title Final Revision
+
+User->Login Page: User presses "Login with Instagram"
+Login Page->Instagram OAuth: Redirect to Instagram OAuth
+User->Instagram OAuth: User enters Instaram credentials
+Instagram OAuth->server side: Request a redirect to Home Page
+server side->sqlite (user_data): Check if user_data exists
+
+alt No existing user_data (new User)
+    sqlite (user_data)->server side: Creates and returns new User
+else Exising user_data (existing User)
+    sqlite (user_data)->server side: returns existing user_data
+end
+
+server side->sqlite (json_cache): Check for JSON caches
+
+alt No existing json_cache
+    server side->Instagram API: Request JSON data for users
+    Instagram API->server side: Return results
+    server side->sqlite (json_cache): Save results
+else Existing json_cache
+    sqlite (json_cache)->server side: Return results
+end
+
+server side->Home Page: Return locations, pics, captions
+Home Page->Google Maps API: Get Map and add Markers
+Google Maps API->Home Page: Return Map and Markers
+
+User->Home Page: User makes a filter request
+Home Page->server side: AJAX POST request with search in body
+server side->sqlite (user_data): Saves new filter
+server side->sqlite (json_cache): Get json_cache JSON
+
+alt json_cache has expired (older than 15min)
+    server side->Instagram API: Request JSON data for users
+    Instagram API->server side: Return results
+    server side->sqlite (json_cache): Save results
+else Valid json_cache
+    sqlite (json_cache)->server side: Return results
+end
+
+alt Filtering for a location
+    server side->Google Places API: Request location of location search
+    Google Places API->server side: Return results, process filter
+else Filtering on distance/tag/limit
+    server side->server side: Process filter
+end
+
+server side->Home Page: Return filtered locations, pics, captions
+Home Page->Google Maps API: Get new Markers
+Google Maps API->Home Page: Return new Markers
+
