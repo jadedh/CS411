@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Database" Category="Database" Bounds="0,-0.000488888888867223,763.636666666667,421.9209" Group="Expanded" Label="db.sqlite3" />
+    <Node Id="auth_group" Category="Table" Bounds="256.923333333333,266.92,100.846666666667,25" Group="Collapsed" Label="auth_group" />
+    <Node Id="auth_group_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="auth_group_name" Category="Field" Description="nvarchar(80)" Label="name" />
+    <Node Id="auth_group_permissions" Category="Table" Bounds="575.056666666667,211.92,168.58,25" Group="Collapsed" Label="auth_group_permissions" />
+    <Node Id="auth_group_permissions_group_id" Category="Field Foreign" Description="bigint" Label="group_id" />
+    <Node Id="auth_group_permissions_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="auth_group_permissions_permission_id" Category="Field Foreign" Description="bigint" Label="permission_id" />
+    <Node Id="auth_permission" Category="Table" Bounds="388.15,266.92,126.393333333333,25" Group="Collapsed" Label="auth_permission" />
+    <Node Id="auth_permission_codename" Category="Field" Description="nvarchar(100)" Label="codename" />
+    <Node Id="auth_permission_content_type_id" Category="Field Foreign" Description="bigint" Label="content_type_id" />
+    <Node Id="auth_permission_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="auth_permission_name" Category="Field" Description="nvarchar(255)" Label="name" />
+    <Node Id="auth_user" Category="Table" Bounds="135.813333333333,266.920111111111,91.0666666666667,25" Group="Collapsed" Label="auth_user" />
+    <Node Id="auth_user_date_joined" Category="Field" Description="datetime" Label="date_joined" />
+    <Node Id="auth_user_email" Category="Field" Description="nvarchar(254)" Label="email" />
+    <Node Id="auth_user_first_name" Category="Field" Description="nvarchar(30)" Label="first_name" />
+    <Node Id="auth_user_groups" Category="Table" Bounds="194.72,211.92,133.253333333333,25" Group="Collapsed" Label="auth_user_groups" />
+    <Node Id="auth_user_groups_group_id" Category="Field Foreign" Description="bigint" Label="group_id" />
+    <Node Id="auth_user_groups_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="auth_user_groups_user_id" Category="Field Foreign" Description="bigint" Label="user_id" />
+    <Node Id="auth_user_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="auth_user_is_active" Category="Field" Description="bool" Label="is_active" />
+    <Node Id="auth_user_is_staff" Category="Field" Description="bool" Label="is_staff" />
+    <Node Id="auth_user_is_superuser" Category="Field" Description="bool" Label="is_superuser" />
+    <Node Id="auth_user_last_login" Category="Field Optional" Description="datetime" Label="last_login" />
+    <Node Id="auth_user_last_name" Category="Field" Description="nvarchar(30)" Label="last_name" />
+    <Node Id="auth_user_password" Category="Field" Description="nvarchar(128)" Label="password" />
+    <Node Id="auth_user_user_permissions" Category="Table" Bounds="358.29,211.92,186.113333333334,25" Group="Collapsed" Label="auth_user_user_permissions" />
+    <Node Id="auth_user_user_permissions_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="auth_user_user_permissions_permission_id" Category="Field Foreign" Description="bigint" Label="permission_id" />
+    <Node Id="auth_user_user_permissions_user_id" Category="Field Foreign" Description="bigint" Label="user_id" />
+    <Node Id="auth_user_username" Category="Field" Description="nvarchar(150)" Label="username" />
+    <Node Id="django_admin_log" Category="Table" Bounds="26.7783333333334,211.920011111111,137.136666666667,25" Group="Collapsed" Label="django_admin_log" />
+    <Node Id="django_admin_log_action_flag" Category="Field" Description="smallint unsigned" Label="action_flag" />
+    <Node Id="django_admin_log_action_time" Category="Field" Description="datetime" Label="action_time" />
+    <Node Id="django_admin_log_change_message" Category="Field" Description="text" Label="change_message" />
+    <Node Id="django_admin_log_content_type_id" Category="Field Foreign" Description="bigint" Label="content_type_id" />
+    <Node Id="django_admin_log_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="django_admin_log_object_id" Category="Field Optional" Description="text" Label="object_id" />
+    <Node Id="django_admin_log_object_repr" Category="Field" Description="nvarchar(200)" Label="object_repr" />
+    <Node Id="django_admin_log_user_id" Category="Field Foreign" Description="bigint" Label="user_id" />
+    <Node Id="django_content_type" Category="Table" Bounds="20,321.920211111111,150.693333333333,25" Group="Collapsed" Label="django_content_type" />
+    <Node Id="django_content_type_app_label" Category="Field" Description="nvarchar(100)" Label="app_label" />
+    <Node Id="django_content_type_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="django_content_type_model" Category="Field" Description="nvarchar(100)" Label="model" />
+    <Node Id="django_migrations" Category="Table" Bounds="300.52,376.92,138.423333333333,25" Group="Collapsed" Label="django_migrations" />
+    <Node Id="django_migrations_app" Category="Field" Description="nvarchar(255)" Label="app" />
+    <Node Id="django_migrations_applied" Category="Field" Description="datetime" Label="applied" />
+    <Node Id="django_migrations_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="django_migrations_name" Category="Field" Description="nvarchar(255)" Label="name" />
+    <Node Id="django_session" Category="Table" Bounds="150.29,376.920311111111,120.23,25" Group="Collapsed" Label="django_session" />
+    <Node Id="django_session_expire_date" Category="Field" Description="datetime" Label="expire_date" />
+    <Node Id="django_session_session_data" Category="Field" Description="text" Label="session_data" />
+    <Node Id="django_session_session_key" Category="Field Primary" Description="nvarchar(40)" Label="session_key" />
+    <Node Id="django_site" Category="Table" Bounds="20,376.920311111111,100.29,25" Group="Collapsed" Label="django_site" />
+    <Node Id="django_site_domain" Category="Field" Description="nvarchar(100)" Label="domain" />
+    <Node Id="django_site_id" Category="Field Primary" Description="bigint" Label="id" />
+    <Node Id="django_site_name" Category="Field" Description="nvarchar(50)" Label="name" />
+    <Node Id="test_data" Category="Table" Bounds="20,39.9996111111111,170.113333333333,141.9203" Group="Expanded" Label="test_data" />
+    <Node Id="test_data_Id" Category="Field Primary" Bounds="40,79.9997111111112,50,25.96" Description="bigint" Label="Id" />
+    <Node Id="test_data_lat" Category="Field" Bounds="120,79.9997111111111,50,25.96" Description="real" Label="lat" />
+    <Node Id="test_data_long" Category="Field" Bounds="40,135.959811111111,50,25.96" Description="real" Label="long" />
+    <Node Id="test_data_query" Category="Field" Bounds="120,135.959811111111,50.1133333333333,25.96" Description="text" Label="query" />
+  </Nodes>
+  <Links>
+    <Link Source="Database" Target="auth_group" Category="Contains" />
+    <Link Source="Database" Target="auth_group_permissions" Category="Contains" />
+    <Link Source="Database" Target="auth_permission" Category="Contains" />
+    <Link Source="Database" Target="auth_user" Category="Contains" />
+    <Link Source="Database" Target="auth_user_groups" Category="Contains" />
+    <Link Source="Database" Target="auth_user_user_permissions" Category="Contains" />
+    <Link Source="Database" Target="django_admin_log" Category="Contains" />
+    <Link Source="Database" Target="django_content_type" Category="Contains" />
+    <Link Source="Database" Target="django_migrations" Category="Contains" />
+    <Link Source="Database" Target="django_session" Category="Contains" />
+    <Link Source="Database" Target="django_site" Category="Contains" />
+    <Link Source="Database" Target="test_data" Category="Contains" />
+    <Link Source="auth_group" Target="auth_group_id" Category="Contains" />
+    <Link Source="auth_group" Target="auth_group_name" Category="Contains" />
+    <Link Source="auth_group_permissions" Target="auth_group_permissions_group_id" Category="Contains" />
+    <Link Source="auth_group_permissions" Target="auth_group_permissions_id" Category="Contains" />
+    <Link Source="auth_group_permissions" Target="auth_group_permissions_permission_id" Category="Contains" />
+    <Link Source="auth_group_permissions_group_id" Target="auth_group_id" Category="Foreign Key" Label="FK_auth_group_permissions_1_0" />
+    <Link Source="auth_group_permissions_permission_id" Target="auth_permission_id" Category="Foreign Key" Label="FK_auth_group_permissions_0_0" />
+    <Link Source="auth_permission" Target="auth_permission_codename" Category="Contains" />
+    <Link Source="auth_permission" Target="auth_permission_content_type_id" Category="Contains" />
+    <Link Source="auth_permission" Target="auth_permission_id" Category="Contains" />
+    <Link Source="auth_permission" Target="auth_permission_name" Category="Contains" />
+    <Link Source="auth_permission_content_type_id" Target="django_content_type_id" Category="Foreign Key" Label="FK_auth_permission_0_0" />
+    <Link Source="auth_user" Target="auth_user_date_joined" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_email" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_first_name" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_id" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_is_active" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_is_staff" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_is_superuser" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_last_login" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_last_name" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_password" Category="Contains" />
+    <Link Source="auth_user" Target="auth_user_username" Category="Contains" />
+    <Link Source="auth_user_groups" Target="auth_user_groups_group_id" Category="Contains" />
+    <Link Source="auth_user_groups" Target="auth_user_groups_id" Category="Contains" />
+    <Link Source="auth_user_groups" Target="auth_user_groups_user_id" Category="Contains" />
+    <Link Source="auth_user_groups_group_id" Target="auth_group_id" Category="Foreign Key" Label="FK_auth_user_groups_0_0" />
+    <Link Source="auth_user_groups_user_id" Target="auth_user_id" Category="Foreign Key" Label="FK_auth_user_groups_1_0" />
+    <Link Source="auth_user_user_permissions" Target="auth_user_user_permissions_id" Category="Contains" />
+    <Link Source="auth_user_user_permissions" Target="auth_user_user_permissions_permission_id" Category="Contains" />
+    <Link Source="auth_user_user_permissions" Target="auth_user_user_permissions_user_id" Category="Contains" />
+    <Link Source="auth_user_user_permissions_permission_id" Target="auth_permission_id" Category="Foreign Key" Label="FK_auth_user_user_permissions_0_0" />
+    <Link Source="auth_user_user_permissions_user_id" Target="auth_user_id" Category="Foreign Key" Label="FK_auth_user_user_permissions_1_0" />
+    <Link Source="django_admin_log" Target="django_admin_log_action_flag" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_action_time" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_change_message" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_content_type_id" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_id" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_object_id" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_object_repr" Category="Contains" />
+    <Link Source="django_admin_log" Target="django_admin_log_user_id" Category="Contains" />
+    <Link Source="django_admin_log_content_type_id" Target="django_content_type_id" Category="Foreign Key" Label="FK_django_admin_log_1_0" />
+    <Link Source="django_admin_log_user_id" Target="auth_user_id" Category="Foreign Key" Label="FK_django_admin_log_0_0" />
+    <Link Source="django_content_type" Target="django_content_type_app_label" Category="Contains" />
+    <Link Source="django_content_type" Target="django_content_type_id" Category="Contains" />
+    <Link Source="django_content_type" Target="django_content_type_model" Category="Contains" />
+    <Link Source="django_migrations" Target="django_migrations_app" Category="Contains" />
+    <Link Source="django_migrations" Target="django_migrations_applied" Category="Contains" />
+    <Link Source="django_migrations" Target="django_migrations_id" Category="Contains" />
+    <Link Source="django_migrations" Target="django_migrations_name" Category="Contains" />
+    <Link Source="django_session" Target="django_session_expire_date" Category="Contains" />
+    <Link Source="django_session" Target="django_session_session_data" Category="Contains" />
+    <Link Source="django_session" Target="django_session_session_key" Category="Contains" />
+    <Link Source="django_site" Target="django_site_domain" Category="Contains" />
+    <Link Source="django_site" Target="django_site_id" Category="Contains" />
+    <Link Source="django_site" Target="django_site_name" Category="Contains" />
+    <Link Source="test_data" Target="test_data_Id" Category="Contains" />
+    <Link Source="test_data" Target="test_data_lat" Category="Contains" />
+    <Link Source="test_data" Target="test_data_long" Category="Contains" />
+    <Link Source="test_data" Target="test_data_query" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+    <Category Id="Database" />
+    <Category Id="Field" />
+    <Category Id="Field Foreign" />
+    <Category Id="Field Optional" />
+    <Category Id="Field Primary" />
+    <Category Id="Foreign Key" />
+    <Category Id="Table" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Description" Label="Description" Description="Description" DataType="System.String" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Description" ValueLabel="real">
+      <Condition Expression="Description = 'real'" />
+      <Setter Property="Background" Value="#FFA90889" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Description" ValueLabel="bigint">
+      <Condition Expression="Description = 'bigint'" />
+      <Setter Property="Background" Value="#FF9DE3DD" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Description" ValueLabel="text">
+      <Condition Expression="Description = 'text'" />
+      <Setter Property="Background" Value="#FF2D9ECE" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Table" ValueLabel="True">
+      <Condition Expression="HasCategory('Table')" />
+      <Setter Property="Background" Value="#FFC0C0C0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Schema" ValueLabel="True">
+      <Condition Expression="HasCategory('Schema')" />
+      <Setter Property="Background" Value="#FF7F9169" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field Primary" ValueLabel="True">
+      <Condition Expression="HasCategory('Field Primary')" />
+      <Setter Property="Background" Value="#FF008000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field Optional" ValueLabel="True">
+      <Condition Expression="HasCategory('Field Optional')" />
+      <Setter Property="Background" Value="#FF808040" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field Foreign" ValueLabel="True">
+      <Condition Expression="HasCategory('Field Foreign')" />
+      <Setter Property="Background" Value="#FF8080FF" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Database" ValueLabel="True">
+      <Condition Expression="HasCategory('Database')" />
+      <Setter Property="Background" Value="#FFFFFFFF" />
+    </Style>
+  </Styles>
+</DirectedGraph>

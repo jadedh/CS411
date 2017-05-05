@@ -1,0 +1,35 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div>
+    <!--<form action="/api/" method="post">
+        {% csrf_token %}
+        <label for="test">Test: </label>
+        <input id="test" type="text" name="test" value="{{ test }}">
+        <input type="submit" value="OK">
+    </form>-->
+    <input type="button" value="Go to Australia!" onclick="marker({ lat: -25.363, lng: 131.044 },5);"/> &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Go to Boston!" onclick="marker({ lat: 42.360, lng: -71.0589 },6);"/> &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Go to Great Britain!" onclick="marker({ lat: 55.378, lng: 3.436 }, 5);"/>
+    <br />
+    <br />
+    <div id="map" style="height:100%;"></div>
+    <script>
+        var map;
+        function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 42.360, lng: -71.0589 },
+            zoom: 6
+        });
+        }
+        function marker(LatLng,zoom) {
+            map.setCenter(LatLng)
+            map.setZoom(zoom);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap"
+    async defer></script>
+</div>
+
+{% endblock %}

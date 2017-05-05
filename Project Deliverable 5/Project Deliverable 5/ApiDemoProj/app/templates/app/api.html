@@ -1,0 +1,76 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+{% csrf_token %}
+<div>
+    <!--<form action="/api/" method="post">
+        {% csrf_token %}
+        <label for="test">Test: </label>
+        <input id="test" type="text" name="test" value="{{ test }}">
+        <input type="submit" value="OK">
+    </form>-->
+    <!--<input type="button" value="Go to Australia!" onclick="marker({ lat: -25.363, lng: 131.044 },5);"/> &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Go to Boston!" onclick="marker({ lat: 42.360, lng: -71.0589 },6);"/> &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Go to Great Britain!" onclick="marker({ lat: 55.378, lng: 3.436 }, 5);"/>-->
+    <br />
+    <br />
+    <label for="">Search:</label>
+    <input type="text" id = "lat" />&nbsp;&nbsp;&nbsp;
+    <!--<label for="">Longitude</label>
+    <input type="text" id= "long" />&nbsp;&nbsp;&nbsp;-->
+    <input type="button" value="Go!" onclick="marker(document.getElementById('lat').value);"/>
+    <br />
+    <br />
+    <div id="map" style="height:100%;"></div>
+    <script>
+        var map;
+        var query;
+        var markersArray = [];
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -33.8665433, lng: 151.1956316 },
+                zoom: 15
+            });
+            var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            });
+        }
+
+        function marker(text) {           
+            $.ajax({
+                type: "POST",
+                url: "/api/",
+                data: {
+                    'query': text
+                },
+                success: function (res) {
+                    for (var i = 0; i < markersArray.length; i++) {
+                        markersArray[i].setMap(null);
+                    }
+                    markersArray.length = 0;
+                    var results = res.results;
+                    if (results != null && results.length > 0) {
+                        for (var i = 0; i < results.length; i++) {
+                            var place = results[i];
+
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                position: { lat: place.lat, lng: place.long }
+                            });
+                            markersArray.push(marker);
+                        }
+                    }
+                }
+            });
+            return false;
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYwqirZB73zzrsHF3P7y0XZRX0df2c2TM&callback=initMap"
+    async defer></script>
+</div>
+
+{% endblock %}
